@@ -32,11 +32,33 @@ const allProduct = asyncHandler(async (req, res) => {
 // @access  Public
 
 const deleteProduct = asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.body._id);
+
+    const product = await Product.findById(req.params.id);
     if (product) {
         product.remove();
-        res.json("Product has been removed")
+        res.json({ message: "Product removed", success: true });
     }
+    else {
+        throw new Error("Product not Found")
+    }
+});
+
+
+// @desc    update Product
+// @route   UPDATE /product
+// @access  Public
+
+const updateProduct = asyncHandler(async (req, res) => {
+    const { _id } = req.body;
+    const product = await Product.findById(_id);
+    console.log(product)
+
+    if (product) {
+        product.productImage = (req.file) && req.file.filename || product.productImage;
+        const updatedProduct = await product.save();
+        res.json(updatedProduct);
+    }
+
     else {
         throw new Error("Product not Found")
     }
@@ -48,14 +70,12 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @route   UPDATE /product
 // @access  Public
 
-const updateProduct = asyncHandler(async (req, res) => {
-    const { name, lab, specification, _id } = req.body;
+const updateProductData= asyncHandler(async (req, res) => {
+    const { _id } = req.body;
     const product = await Product.findById(_id);
+    console.log(product)
 
     if (product) {
-        product.name = name || product.name
-        product.lab = lab || product.lab
-        product.specification = JSON.parse(specification) || product.specification
         product.productImage = (req.file) && req.file.filename || product.productImage;
         const updatedProduct = await product.save();
         res.json(updatedProduct);

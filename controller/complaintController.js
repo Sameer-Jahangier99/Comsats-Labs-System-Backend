@@ -107,6 +107,21 @@ const acceptedSoftwareComplaint = asyncHandler(async (req, res) => {
 
 });
 
+// @desc    DELETE user
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+
+const deleteComplaint = asyncHandler(async (req, res) => {
+    const complaint = await Complaint.findById(req.params._id);
+    if (complaint) {
+        await complaint.remove();
+        res.json({ message: "Complaint removed", success: true });
+    } else {
+        res.status(404);
+        throw new Error("Complaint not found");
+    }
+});
+
 
 
 // @desc    All Complaint Approved by Dco
@@ -397,4 +412,4 @@ const complaintDeadline = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { registerComplaint, allComplaint, approvedByDco, allComplaintAprrovedByDco, rejectedByDco, approveByCommittee, rejectByCommittee, allComplaintAprrovedByCommittee, approveByNoc, allComplaintAprrovedByNOC, rejectByNoc, complaintById, complaintDeadline, allHardwareComplaintAprrovedByCommittee, approveByWorks, rejectByWorks, allComplaintAprrovedByWorks, complaintCompleted, acceptedSoftwareComplaint, acceptedhardwareComplaint, allhardwareComplaint, allSoftwareComplaint }
+module.exports = { registerComplaint, allComplaint, approvedByDco, allComplaintAprrovedByDco, rejectedByDco, approveByCommittee, rejectByCommittee, allComplaintAprrovedByCommittee, approveByNoc, allComplaintAprrovedByNOC, rejectByNoc, complaintById, complaintDeadline, allHardwareComplaintAprrovedByCommittee, approveByWorks, rejectByWorks, allComplaintAprrovedByWorks, complaintCompleted, acceptedSoftwareComplaint, acceptedhardwareComplaint, allhardwareComplaint, allSoftwareComplaint, deleteComplaint }

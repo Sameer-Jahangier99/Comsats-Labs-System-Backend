@@ -214,7 +214,132 @@ const allRequestAprrovedByNOC = asyncHandler(async (req, res) => {
 });
 
 
+// @desc    Request By id
+// @route   POST /request/:_id
+// @access  Private
+
+const RequestById = asyncHandler(async (req, res) => {
+    const { _id } = req.params;
+    const request = await Request.findById(_id);
+    if (request) {
+        res.json({
+            message: "Request has been rejected",
+            success: true,
+            data: request
+        })
+    } else {
+        res.status(404);
+        throw new Error("Request not found");
+    }
+});
+
+
+
+// @desc    Complaint deadline
+// @route   POST /complaint/deadline
+// @access  Private
+
+const RequestDeadline = asyncHandler(async (req, res) => {
+    const { _id } = req.params;
+    const { ApiDate } = req.body;
+
+    const request = await Request.findById(_id);
+    if (request) {
+        await Request.findOneAndUpdate({ _id }, { $set: { deadline: ApiDate } })
+        res.json("Deadline has been given")
+    } else {
+        res.status(404);
+        throw new Error("Complaint not found");
+    }
+});
+
+
+
+// @desc    Complaint complete By Noc
+// @route   POST /complaint/mark/completed
+// @access  Private
+
+const requestCompleted = asyncHandler(async (req, res) => {
+    const complaint = await Request.findById(req.params._id);
+    if (complaint) {
+        await Request.updateOne({ _id: req.params._id }, { $set: { status: "completed" } })
+        res.json("Status has been updated as completed")
+    } else {
+        res.status(404);
+        throw new Error("Complaint not found");
+    }
+});
+
+
+// @desc    All Complaint Approved by Dco
+// @route   GET /complaint
+// @access  Private
+// software complaints
+const acceptedAllRequest = asyncHandler(async (req, res) => {
+    const request = await Request.find({ dcoApproved: true, committeApproved: true, nocApproved: true }).populate("product user", "name lab ")
+    if (request) {
+        res.json({
+            data: request,
+            message: "SuccessFully fetched all requests"
+        })
+    } else {
+        res.status(404);
+        throw new Error("Complaint not found");
+    }
+});
+
+// @desc    All Complaint Approved by Dco
+// @route   GET /complaint
+// @access  Private
+// software complaints
+const acceptedSoftwareAllRequest = asyncHandler(async (req, res) => {
+    const request = await Request.find({ dcoApproved: true, committeApproved: true, nocApproved: true, type: "software" }).populate(" user", "name lab ")
+    if (request) {
+        res.json({
+            data: request,
+            message: "SuccessFully fetched all requests"
+        })
+    } else {
+        res.status(404);
+        throw new Error("Complaint not found");
+    }
+});
+
+// @desc    All Complaint Approved by Dco
+// @route   GET /complaint
+// @access  Private
+// software complaints
+const acceptedHardwareAllRequest = asyncHandler(async (req, res) => {
+    const request = await Request.find({ dcoApproved: true, committeApproved: true, nocApproved: true, type: "hardware" }).populate(" user", "name lab ")
+    if (request) {
+        res.json({
+            data: request,
+            message: "SuccessFully fetched all requests"
+        })
+    } else {
+        res.status(404);
+        throw new Error("Complaint not found");
+    }
+});
+
+
+
+// @desc    DELETE user
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+
+const deleteRequest = asyncHandler(async (req, res) => {
+    const request = await Request.findById(req.params._id);
+    if (request) {
+        await request.remove();
+        res.json({ message: "Request removed", success: true });
+    } else {
+        res.status(404);
+        throw new Error("Request not found");
+    }
+});
+
 
 module.exports = {
-    addRequest, dcoRequests, approvedByDco, rejectedByDco, committeeRequest, approvedByCommittee, rejectedByCommittee, nocRequests, approvedByNoc, rejectedByNoc, allRequestAprrovedByNOC
+    addRequest, dcoRequests, approvedByDco, rejectedByDco, committeeRequest, approvedByCommittee, rejectedByCommittee, nocRequests, approvedByNoc, rejectedByNoc, allRequestAprrovedByNOC, RequestById, RequestDeadline, requestCompleted, acceptedAllRequest, acceptedSoftwareAllRequest, acceptedHardwareAllRequest, deleteRequest
 };

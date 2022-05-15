@@ -24,7 +24,7 @@ router.route("/accepted/by/all").get(complaintController.acceptedSoftwareComplai
 router.route("/accepted/hardware").get(complaintController.acceptedhardwareComplaint);
 router.route("/all/hardware").get(complaintController.allhardwareComplaint);
 router.route("/all/software").get(complaintController.allSoftwareComplaint);
-
+router.delete("/delete/:_id", complaintController.deleteComplaint);
 const complaintRoutes = router;
 module.exports = complaintRoutes;
 

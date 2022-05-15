@@ -40,6 +40,9 @@ const RequestSchema = mongoose.Schema(
             type: Boolean,
             default: null
         },
+        deadline: {
+            type: Date,
+        }
     },
     {
         timestamps: true,

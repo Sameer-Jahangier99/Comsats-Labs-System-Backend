@@ -18,7 +18,7 @@ var upload = multer({ storage: storage })
 
 router.route("/").get(authMiddleware.protect, productController.allProduct).post(authMiddleware.protect, upload.single('productImage'), productController.addProduct).delete(authMiddleware.protect, productController.deleteProduct).put(authMiddleware.protect, upload.single('productImage'), productController.updateProduct)
 router.post("/qrId", authMiddleware.protect, productController.findProduct)
-router.get("/:id", authMiddleware.protect, productController.findProductById);
+router.delete("/:id", authMiddleware.protect, productController.deleteProduct);
 
 const productRoutes = router;
 module.exports = productRoutes;
