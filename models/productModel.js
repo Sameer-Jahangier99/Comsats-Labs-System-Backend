@@ -7,14 +7,16 @@ const productSchema = mongoose.Schema(
             required: true,
             ref: 'User',
         },
+        lab: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'Lab',
+        },
         name: {
             type: String,
             required: true,
         },
-        lab: {
-            type: String,
-            required: true,
-        },
+        
         qrId: {
             type: String,
             required: true,

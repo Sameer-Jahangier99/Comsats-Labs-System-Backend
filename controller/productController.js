@@ -21,11 +21,13 @@ const addProduct = asyncHandler(async (req, res) => {
 
 const allProduct = asyncHandler(async (req, res) => {
     const products = await Product.find({}).populate(
-        'user',
+        'user lab',
         'name '
     );
     res.json(products);
 });
+
+
 
 // @desc    Delete Product
 // @route   DEL /product
@@ -95,7 +97,7 @@ const updateProductData= asyncHandler(async (req, res) => {
 const findProduct = asyncHandler(async (req, res) => {
     const { qrId } = req.body;
     const product = await Product.findOne({ qrId }).populate(
-        'user',
+        'user lab',
         'name '
     );;
     if (product) {
@@ -106,6 +108,26 @@ const findProduct = asyncHandler(async (req, res) => {
         throw new Error("Product not Found");
     }
 });
+
+
+
+// @desc    find product by qrId
+// @route   POST /product/qrId
+// @access  Public
+
+const findProductByLab = asyncHandler(async (req, res) => {
+    const { lab } = req.body;
+    
+    const product = await Product.find({ lab });
+    if (product) {
+        res.json( product)
+    }
+    else {
+        res.status(400);
+        throw new Error("Product not Found");
+    }
+});
+
 
 
 // @desc    find Product
@@ -129,5 +151,5 @@ const findProductById = asyncHandler(async (req, res) => {
 
 
 module.exports = {
-    addProduct, allProduct, findProduct, deleteProduct, updateProduct, findProductById
+    addProduct, allProduct, findProduct, deleteProduct, updateProduct, findProductById, findProductByLab
 };
