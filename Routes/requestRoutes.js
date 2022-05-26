@@ -15,7 +15,7 @@ router.get("/noc", authMiddleware.protect, requestController.nocRequests)
 router.get("/nocApproved/:_id", authMiddleware.protect, requestController.approvedByNoc)
 router.get("/nocRejected/:_id", authMiddleware.protect, requestController.rejectedByNoc)
 router.get("/approved/noc", authMiddleware.protect, requestController.allRequestAprrovedByNOC)
-router.get("/:_id", authMiddleware.protect, requestController.allRequestAprrovedByNOC)
+router.get("/:_id", authMiddleware.protect, requestController.RequestById)
 router.post("/deadline/:_id", requestController.RequestDeadline)
 router.post("/mark/completed/:_id", requestController.requestCompleted)
 router.route("/accepted/by/all").get(requestController.acceptedAllRequest);

@@ -244,6 +244,7 @@ const RequestDeadline = asyncHandler(async (req, res) => {
     const { ApiDate } = req.body;
 
     const request = await Request.findById(_id);
+    console.log(request);
     if (request) {
         await Request.findOneAndUpdate({ _id }, { $set: { deadline: ApiDate } })
         res.json("Deadline has been given")
