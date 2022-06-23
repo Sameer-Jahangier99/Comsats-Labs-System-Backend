@@ -7,16 +7,19 @@ const generateToken = require("../utils/generateToken");
 // @access  Public
 
 const AddLab = asyncHandler(async (req, res) => {
-  const { name, softwares } = req.body;
-  const createdLab = await Lab.create({ name, softwares });
-  if (createdLab) {
+  const { name, softwares, imageUrl,qrId} = req.body;
+  const createdLab = await Lab.create({name,softwares, imageUrl, qrId})
+  if(createdLab)
+  {
     res.json({
-      message: "Successfully Created",
-      data: createdLab,
-      success: true,
-    });
-  } else {
-    throw new Error("Lab not created");
+        message: "Successfully Created",
+        data: createdLab,
+        success: true,
+    })
+
+  }
+  else {
+      throw new Error("Lab not created");
   }
 });
 
