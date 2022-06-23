@@ -7,42 +7,30 @@ const RequestSchema = mongoose.Schema(
             required: true,
             ref: 'User',
         },
-        title: {
+        name: {
             type: String,
             required: true,
         },
-        type: {
+        courseCode: {
             type: String,
             required: true,
         },
+        courseTitle: {
+            type: String,
+            required: true,
+        },
+        numberOfStudent: {
+            type: Number,
+            required: true,
+        }, 
         lab: {
             type: String,
             required: true,
         },
-        note: {
-            type: String,
-            required: true,
+        type:{
+            type:String,
+            required:true,
         },
-        status: {
-            type: String,
-            required: true,
-            default: "progress"
-        },
-        dcoApproved: {
-            type: Boolean,
-            default: null
-        },
-        committeApproved: {
-            type: Boolean,
-            default: null
-        },
-        nocApproved: {
-            type: Boolean,
-            default: null
-        },
-        deadline: {
-            type: Date,
-        }
     },
     {
         timestamps: true,
@@ -50,6 +38,6 @@ const RequestSchema = mongoose.Schema(
 );
 
 
-const Complaint = mongoose.model("Request", RequestSchema);
+const FacultyRequest = mongoose.model("FacultyRequest", RequestSchema);
 
-module.exports = Complaint;
+module.exports = FacultyRequest;
