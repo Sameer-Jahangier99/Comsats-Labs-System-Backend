@@ -10,7 +10,15 @@ const LabSchema = mongoose.Schema(
             type: Array,
             "default": [],
             required: true,
-        }
+        },
+        qrId: {
+            type: String,
+            required: true,
+        },
+        imageUrl: {
+            type: String,
+            required: true,
+        },
     },
     {
         timestamps: true,
