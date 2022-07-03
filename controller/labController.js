@@ -52,8 +52,26 @@ const AllLab = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    find lab by qrId
+// @route   POST /lab/qrId
+// @access  Public
+
+const findLab = asyncHandler(async (req, res) => {
+  const { qrId } = req.body;
+  const lab = await Lab.findOne({ qrId })
+  if (lab) {
+      res.json({ lab })
+  }
+  else {
+      res.status(400);
+      throw new Error("Product not Found");
+  }
+});
+
+
 module.exports = {
   AddLab,
   AllLab,
   UpdateLab,
+  findLab
 };
