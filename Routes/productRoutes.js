@@ -17,7 +17,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 router.route("/").get(productController.allProduct).post(authMiddleware.protect, upload.single('productImage'), productController.addProduct).delete(authMiddleware.protect, productController.deleteProduct).put(authMiddleware.protect, upload.single('productImage'), productController.updateProduct)
-router.post("/qrId", authMiddleware.protect, productController.findProduct)
+router.post("/qrId", productController.findProduct)
 router.delete("/:id", authMiddleware.protect, productController.deleteProduct);
 router.post("/lab", productController.findProductByLab);
 
